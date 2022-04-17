@@ -65,3 +65,13 @@
         <?php }
         
     }
+
+    // Student Delete
+    function destroy($id){
+        global $db_con;
+        $command="DELETE FROM student WHERE id='$id'";
+        $query=$db_con->query($command);
+        if ($query) {
+            header("location: index.php");
+        }
+    }

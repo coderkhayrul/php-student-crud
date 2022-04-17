@@ -30,19 +30,27 @@
         global $db_con;
 
         $commend = "SELECT * FROM student";
-        $get_student = $db_con->query($commend);
-        return $get_student;
+        $get_students = $db_con->query($commend);
+        return $get_students;
     }
 
-    // Student Update
-    function update($name, $email, $phone, $address, $department) {
+    // Student Edit
+    function edit($id){
+        global $db_con;
+        $commend = "SELECT * FROM student WHERE id = '$id'";
+        $student = $db_con->query($commend);
+        return $student;
+    }
+
+     // Student Update
+    function update($name, $email, $phone, $address, $department, $id) {
         global $db_con;
 
-        $commend = "INSERT INTO student(name, email, phone, address, department) VALUES('$name', '$email', '$phone', '$address', '$department')";
+        $commend = "UPDATE student SET name='$name', email='$email', phone='$phone', department='$department', address='$address' WHERE id='$id'";
         $query = $db_con->query($commend);
         if ($query) { ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong class="text-success">Congratulations!</strong> Student has successfully Registration.
+                <strong class="text-success">Congratulations!</strong> Student has successfully Updated.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

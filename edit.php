@@ -7,12 +7,12 @@
         <div class="col-md-6 col-sm-12 mb-3">
             <div class="card">
                 <div class="card-header bg-secondary d-flex justify-content-between">
-                    <h5 class="text-light text-uppercase m-0">Student Update</h5>
+                    <h5 class="text-light text-uppercase m-0">Student Edit</h5>
                     <a href="index.php" class="btn btn-primary btn-sm">All Student</a>
                 </div>
                 <div class="card-body">
                     <?php
-                            if (isset($_POST['register'])) { ?>
+                            if (isset($_POST['update'])) { ?>
                     <?php
                         // Get All Students Data
                         $name = $_POST['name'];
@@ -31,43 +31,52 @@
                         </div>
                         <?php 
                         }else {
-                            $notification = update($name, $email, $phone, $address, $department,);
+                            $id = $_GET["id"];
+                            $notification = update($name, $email, $phone, $address, $department, $id) ;
 							echo $notification;
                         }
                     }?>
-                    <form method="POST">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" name="name" id="name" placeholder="Enter Full Name" class="form-control"
-                                value="<?php echo $name; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" placeholder="Enter Full Email"
-                                class="form-control" value="<?php echo $email; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="text" name="phone" id="phone" placeholder="Enter Full Phone"
-                                class="form-control" value="<?php echo $phone; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea name="address" id="address" class="form-control"
-                                placeholder="Address"> <?php echo $address; ?></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="department">Department</label>
-                            <select name="department" id="department" class="form-control">
-                                <option value="0">Select Department</option>
-                                <option value="1">Computer Science</option>
-                                <option value="2">Nautical Science</option>
-                                <option value="3">Microbiology</option>
-                                <option value="4">Visual Communication</option>
-                            </select>
-                        </div>
-                        <button name="register" type="submit" class="btn btn-primary btn-block">Register</button>
-                    </form>
+                    <?php
+                        if (isset($_GET['id'])) {
+                            $id = $_GET['id'];
+                            $student = edit($id);
+                            while ($data = $student->fetch_assoc()) {?>
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label for="name">Full Name</label>
+                                        <input type="text" name="name" id="name" placeholder="Enter Full Name" class="form-control"
+                                            value="<?php echo $data['name']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" id="email" placeholder="Enter Full Email"
+                                            class="form-control" value="<?php echo  $data['email']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" name="phone" id="phone" placeholder="Enter Full Phone"
+                                            class="form-control" value="<?php echo  $data['phone']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        <textarea name="address" id="address" class="form-control"
+                                            placeholder="Address"> <?php echo  $data['address']; ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="department">Department</label>
+                                        <select name="department" id="department" class="form-control">
+                                            <option value="0">Select Department</option>
+                                            <option value="1"  <?php echo $data['department'] == 1 ? "selected" : "" ?> >Computer Science</option>
+                                            <option value="2" <?php echo $data['department'] == 2 ? "selected" : "" ?> >Nautical Science</option>
+                                            <option value="3" <?php echo $data['department'] == 3 ? "selected" : "" ?> >Microbiology</option>
+                                            <option value="4" <?php echo $data['department'] == 4 ? "selected" : "" ?> >Visual Communication</option>
+                                        </select>
+                                    </div>
+                                    <button name="update" type="submit" class="btn btn-primary btn-block">Update</button>
+                                </form>
+                            <?php }
+                        }
+                    ?>
                 </div>
             </div>
         </div>
